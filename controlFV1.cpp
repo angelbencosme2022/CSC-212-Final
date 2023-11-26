@@ -12,7 +12,7 @@
   //./controlF fileName  functionChoice key
 //next version should like ask for upper or lower case
 // also probably change the inputs from the command line to std::cin , and give the user the options
-//also need to change the function so that they print what line and space the key was found
+//also need to change the string search functions so that they print what line and space the key was found
 //both time functions work
 
 //start of kmp functions
