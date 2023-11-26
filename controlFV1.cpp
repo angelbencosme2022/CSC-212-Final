@@ -11,8 +11,9 @@
   //g++ -std=c++11 controlFV1.cpp -o controlF
   //./controlF fileName  functionChoice key
 //next version should like ask for upper or lower case
-// also probally change the inputs from the command line to std::cin , and give the user the options
+// also probably change the inputs from the command line to std::cin , and give the user the options
 //also need to change the function so that they print what line and space the key was found
+//both time functions work
 
 //start of kmp functions
 void computeLPSArray(std::string pat, int M, int lps[]);
