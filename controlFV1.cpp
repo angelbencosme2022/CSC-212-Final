@@ -4,7 +4,7 @@
 #include <sstream>
 #include <cstring>
 #include <ctime>
-#include <chrono>
+#include <vector>
 
 
 //to run this function:
@@ -26,7 +26,7 @@ bool KMPSearch(const std::string &txt, const std::string &pat) {
     int N = txt.size();
     bool found = false;
 
-
+    std::vector<int> indexes;
     // create lps[] that will hold the longest prefix suffix
     // values for pattern
     int lps[M];
@@ -44,7 +44,7 @@ bool KMPSearch(const std::string &txt, const std::string &pat) {
 
         if (j == M) {
             found = true;
-            std::cout << "Row " << ((i - j) /80) + 1 << " Column " <<  ((i - j)+1) % 80 << std::endl;
+           indexes.push_back(i-j);
             j = lps[j - 1];
         } else if (i < N && pat[j] != txt[i]) {
             if (j != 0)
@@ -54,8 +54,17 @@ bool KMPSearch(const std::string &txt, const std::string &pat) {
         }
     }
 
-    // Return true at the end
-    return found ;
+  std::cout << pat << " found " << indexes.size() << " time(s)" << std::endl;
+    bool firstIndex = true;
+    for (auto index : indexes){
+        if(firstIndex){
+            std::cout << pat << " found at : " << std::endl;
+            firstIndex = false;
+        }
+        std::cout << "Row " << (index/ 80) + 1 << " Column " << (index + 1) % 80 << std::endl;
+
+    }
+    return found;
 }
 
 
@@ -109,11 +118,12 @@ void bad_character(std::string key, int keySize, int badchar[256]){
 
 bool BoyerMoore(std::string data, std::string key){
     //initalize variables for the size of the key, size of the data, and our badchar array;
+    std::vector<int> indexes;
     int m = key.size(), n = data.size(), badchar[256];
     //assemble the badchar array 
     bad_character(key, m, badchar);
     //initalize shift, this will be used to find the next worthy comparison
-    bool inString = false;
+    bool found = false;
     int shift = 0;
     //sort through the data 
     while (shift <= (n - m)) {
@@ -128,27 +138,34 @@ bool BoyerMoore(std::string data, std::string key){
         //if i < 0, weve found an instance of our key. we can return true
         if (i < 0) {
            found = true;
-           inString = true;
+           indexes.push_back(shift);
         }
-        if(found){
-            std::cout << "Row " << (shift / 80) + 1 << " Column " << (shift + 1) % 80 <<  std::endl;
-        }
+
         //we havent found out key in data, so we shift to the last occurance of the letter that broke our comparison/bad character 
         int badCharShift = i - badchar[data[shift + i]];
         shift += max(1, badCharShift);
         
     }   
-    if(inString){
-        return true;
-    }
+    std::cout << key << " found " << indexes.size() << " time(s)" << std::endl;
+    bool firstIndex = true;
+    for (auto index : indexes){
+        if(firstIndex){
+            std::cout << key << " found at : " << std::endl;
+            firstIndex = false;
+        }
+        std::cout << "Row " << (index/ 80) + 1 << " Column " << (index + 1) % 80 << std::endl;
 
-    return false;
+    }
+    return found;
 }
 
 //end of Boyer-Moore
 
 // start of basic function
 bool inString(std::string s, std::string key) {
+    bool found = false;
+    int count = 0;
+    std::vector<int> indexes;
     for (int i = 0; i <= s.length() - key.length(); i++) {
         if (s[i] == key[0]) {
             bool match = true;
@@ -159,11 +176,22 @@ bool inString(std::string s, std::string key) {
                 }
             }
             if (match) {
-                return true;
+                indexes.push_back(i);
+                found = true;
             }
         }
     }
-    return false;
+   std::cout << key << " found " << indexes.size() << " time(s)" << std::endl;
+    bool firstIndex = true;
+    for (auto index : indexes){
+        if(firstIndex){
+            std::cout << key << " found at : " << std::endl;
+            firstIndex = false;
+        }
+        std::cout << "Row " << (index/ 80) + 1 << " Column " << (index + 1) % 80 << std::endl;
+
+    }
+    return found;
 }
 
 //end of basic function
@@ -175,22 +203,22 @@ float time_func(const std::string& s, const std::string& key , std::string funct
     c_start = clock();
     bool result = inString(s, key);
     c_end = clock();
-     if (result) {
-        std::cout << "key is in string " << std::endl;
-    } else {
-        std::cout << "key is not in string " << std::endl;
-    }
+    //  if (result) {
+    //     std::cout << "key is in string " << std::endl;
+    // } else {
+    //     std::cout << "key is not in string " << std::endl;
+    // }
     }
 
     else if (function == "kmp"){
         c_start = clock();
         bool result = KMPSearch(s, key);
         c_end = clock();
-         if (result) {
-        std::cout << "key is in string " << std::endl;
-    } else {
-        std::cout << "key is not in string " << std::endl;
-    }
+    //      if (result) {
+    //     std::cout << "key is in string " << std::endl;
+    // } else {
+    //     std::cout << "key is not in string " << std::endl;
+    // }
     }
 
       else if (function == "boyer"){
@@ -198,11 +226,11 @@ float time_func(const std::string& s, const std::string& key , std::string funct
         bool result = BoyerMoore(s, key);
         c_end = clock();
 
-         if (result) {
-        std::cout << "key is in string " << std::endl;
-    } else {
-        std::cout << "key is not in string " << std::endl;
-    }
+    //      if (result) {
+    //     std::cout << "key is in string " << std::endl;
+    // } else {
+    //     std::cout << "key is not in string " << std::endl;
+    // }
     }
     else{
         std::cout << "invalid function call" << '\n';
@@ -237,7 +265,7 @@ int main(int argc, char* argv[]){
    //std::cout << data.size() << std::endl;
     float execution_time = time_func(data, key , function);
 
-    std::cout << "Execution time of the " <<  function << " is " << execution_time << " seconds." << std::endl;
+    //std::cout << "Execution time of the " <<  function << " is " << execution_time << " seconds." << std::endl;
     return 0;
 
 
