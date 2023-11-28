@@ -19,9 +19,13 @@
 void computeLPSArray(std::string pat, int M, int lps[]);
 
 // Prints occurrences of pat[] in txt[]
-bool KMPSearch(std::string txt, std::string pat) {
+// kmp 
+
+bool KMPSearch(const std::string &txt, const std::string &pat) {
     int M = pat.size();
     int N = txt.size();
+    bool found = false;
+
 
     // create lps[] that will hold the longest prefix suffix
     // values for pattern
@@ -39,8 +43,8 @@ bool KMPSearch(std::string txt, std::string pat) {
         }
 
         if (j == M) {
-            //std::cout << "Found pattern at index " << i - j << std::endl;
-            return true;
+            found = true;
+            std::cout << "Row " << ((i - j) /80) + 1 << " Column " <<  ((i - j)+1) % 80 << std::endl;
             j = lps[j - 1];
         } else if (i < N && pat[j] != txt[i]) {
             if (j != 0)
@@ -49,8 +53,11 @@ bool KMPSearch(std::string txt, std::string pat) {
                 i = i + 1;
         }
     }
-    return false;
+
+    // Return true at the end
+    return found ;
 }
+
 
 // Fills lps[] for given pattern pat[0..M-1]
 void computeLPSArray(std::string pat, int M, int lps[]) {
@@ -106,10 +113,12 @@ bool BoyerMoore(std::string data, std::string key){
     //assemble the badchar array 
     bad_character(key, m, badchar);
     //initalize shift, this will be used to find the next worthy comparison
+    bool inString = false;
     int shift = 0;
     //sort through the data 
     while (shift <= (n - m)) {
         //i is initalized to go through the key
+        bool found = false;
         int i = m - 1;
         //this nested while loop will be used to compare our key to an instance in data
         while (i >= 0 && key[i] == data[shift + i]) {
@@ -118,12 +127,19 @@ bool BoyerMoore(std::string data, std::string key){
         }
         //if i < 0, weve found an instance of our key. we can return true
         if (i < 0) {
-            return true;
+           found = true;
+           inString = true;
+        }
+        if(found){
+            std::cout << "Row " << (shift / 80) + 1 << " Column " << (shift + 1) % 80 <<  std::endl;
         }
         //we havent found out key in data, so we shift to the last occurance of the letter that broke our comparison/bad character 
         int badCharShift = i - badchar[data[shift + i]];
         shift += max(1, badCharShift);
         
+    }   
+    if(inString){
+        return true;
     }
 
     return false;
@@ -152,90 +168,54 @@ bool inString(std::string s, std::string key) {
 
 //end of basic function
 
-// float time_func(const std::string& s, const std::string& key , std::string function) {
-//     clock_t c_start, c_end;
+float time_func(const std::string& s, const std::string& key , std::string function) {
+    clock_t c_start, c_end;
 
-//     if(function == "basic"){
-//     c_start = clock();
-//     bool result = inString(s, key);
-//     c_end = clock();
-//      if (result) {
-//         std::cout << "key is in string " << std::endl;
-//     } else {
-//         std::cout << "key is not in string " << std::endl;
-//     }
-//     }
-
-//     else if (function == "kmp"){
-//         c_start = clock();
-//         bool result = KMPSearch(s, key);
-//         c_end = clock();
-//          if (result) {
-//         std::cout << "key is in string " << std::endl;
-//     } else {
-//         std::cout << "key is not in string " << std::endl;
-//     }
-//     }
-
-//       else if (function == "boyer"){
-//         c_start = clock();
-//         bool result = BoyerMoore(s, key);
-//         c_end = clock();
-
-//          if (result) {
-//         std::cout << "key is in string " << std::endl;
-//     } else {
-//         std::cout << "key is not in string " << std::endl;
-//     }
-//     }
-//     else{
-//         std::cout << "invalid function call" << '\n';
-//     }
-
-   
-
-//     float output = 1.0 * (c_end - c_start) / CLOCKS_PER_SEC;
-//     return output;
-// }
-
-
-
-float time_func(const std::string& s, const std::string& key, const std::string& function) {
-    // Using the high_resolution_clock for accurate timing
-    auto start_time = std::chrono::high_resolution_clock::now();
-
-    if (function == "basic") {
-        bool result = inString(s, key);
-        if (result) {
-            std::cout << "key is in string " << std::endl;
-        } else {
-            std::cout << "key is not in string " << std::endl;
-        }
-    } else if (function == "kmp") {
-        bool result = KMPSearch(s, key);
-        if (result) {
-            std::cout << "key is in string " << std::endl;
-        } else {
-            std::cout << "key is not in string " << std::endl;
-        }
-    } else if (function == "boyer") {
-        bool result = BoyerMoore(s, key);
-        if (result) {
-            std::cout << "key is in string " << std::endl;
-        } else {
-            std::cout << "key is not in string " << std::endl;
-        }
+    if(function == "basic"){
+    c_start = clock();
+    bool result = inString(s, key);
+    c_end = clock();
+     if (result) {
+        std::cout << "key is in string " << std::endl;
     } else {
+        std::cout << "key is not in string " << std::endl;
+    }
+    }
+
+    else if (function == "kmp"){
+        c_start = clock();
+        bool result = KMPSearch(s, key);
+        c_end = clock();
+         if (result) {
+        std::cout << "key is in string " << std::endl;
+    } else {
+        std::cout << "key is not in string " << std::endl;
+    }
+    }
+
+      else if (function == "boyer"){
+        c_start = clock();
+        bool result = BoyerMoore(s, key);
+        c_end = clock();
+
+         if (result) {
+        std::cout << "key is in string " << std::endl;
+    } else {
+        std::cout << "key is not in string " << std::endl;
+    }
+    }
+    else{
         std::cout << "invalid function call" << '\n';
     }
 
-    // Measure the duration
-    auto end_time = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+   
 
-    float output = 1.0 * duration.count() / 1e6; // Convert microseconds to seconds
+    float output = 1.0 * (c_end - c_start) / CLOCKS_PER_SEC;
     return output;
 }
+
+
+
 
 
 
@@ -249,19 +229,15 @@ int main(int argc, char* argv[]){
     }
     
     std::string line, data;
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        std::string val;
-        while (iss >> val) {
-            data.append(val);
-        }
+      while (std::getline(file, line)) {
+        data += line;
     }
 
     std::string key = argv[3];
-    std::cout << data.size() << std::endl;
+   //std::cout << data.size() << std::endl;
     float execution_time = time_func(data, key , function);
 
-    std::cout << "Execution time of the Boyer Moore Algorithm: " << execution_time << " seconds." << std::endl;
+    std::cout << "Execution time of the " <<  function << " is " << execution_time << " seconds." << std::endl;
     return 0;
 
 
