@@ -3,6 +3,7 @@
 #include <ctime>
 #include <fstream>
 #include <sstream>
+#include <ofstream>
 
 
 int max(int a, int b){
@@ -60,7 +61,7 @@ bool BoyerMoore(std::string data, std::string key){
             //loop will break if the comparison is wrong, or...
             i--;
         }
-        //if i < 0, weve found an instance of our key. we can return true
+        //if i < 0, we've found an instance of our key. we can return true
         if (i < 0) {
             return true;
         }
@@ -183,7 +184,10 @@ float time_func(const std::string& s, const std::string& key , std::string funct
    int main(int argc, char* argv[]){
     //std::ifstream file(argv[1]);
     std::string function = argv[1];
+    std::string filename = argv[2];
+    // std::string key = argv[2];
     std::string s = "";
+       
 
     // if(!file.is_open()) {
     //     std::cerr << "Error opening file: " << argv[1] << std::endl;
@@ -198,17 +202,23 @@ float time_func(const std::string& s, const std::string& key , std::string funct
     //         data.append(val);
     //     }
     // }
-    
 
-    std::string key = "CGT";
+    std::ofstream executetime_File("filename");
+
+    std::string key = "WORD";
     for(int i = 0; i < 50000; i++){
         float execution_time = time_func(s, key , function);
-        std::cout << execution_time << std::endl; //switch to writing to file 
-        s += "CG";
-        
+        if(function == "basic"){ 
+            executetime_File << "x - " << execution_time << std::endl; //switch to writing to file 
+        }else if(function == "kmp"){
+            executetime_File << "y - " << execution_time << std::endl; //switch to writing to file 
+        }else if(function == "boyer"){
+             executetime_File << "z - " << execution_time << std::endl;
+        }     
+        s += key[i];
+    
     }
     
-
     
     return 0;
 
