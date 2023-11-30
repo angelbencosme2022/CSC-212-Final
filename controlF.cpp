@@ -3,28 +3,19 @@
 #include <fstream>
 #include <sstream>
 #include <cstring>
-#include <ctime>
 #include <vector>
 
 
-//to run this function:
-  //g++ -std=c++11 controlFV1.cpp -o controlF
-  //./controlF fileName  functionChoice key
-//next version should like ask for upper or lower case
-// also probably change the inputs from the command line to std::cin , and give the user the options
-//also need to change the string search functions so that they print what line and space the key was found
-//both time functions work
 
-//start of kmp functions
+
 void computeLPSArray(std::string pat, int M, int lps[]);
 
 // Prints occurrences of pat[] in txt[]
 // kmp 
 
-bool KMPSearch(const std::string &txt, const std::string &pat) {
+void KMPSearch(const std::string &txt, const std::string &pat) {
     int M = pat.size();
     int N = txt.size();
-    bool found = false;
 
     std::vector<int> indexes;
     // create lps[] that will hold the longest prefix suffix
@@ -43,7 +34,6 @@ bool KMPSearch(const std::string &txt, const std::string &pat) {
         }
 
         if (j == M) {
-            found = true;
            indexes.push_back(i-j);
             j = lps[j - 1];
         } else if (i < N && pat[j] != txt[i]) {
@@ -64,7 +54,6 @@ bool KMPSearch(const std::string &txt, const std::string &pat) {
         std::cout << "Row " << (index/ 80) + 1 << " Column " << (index + 1) % 80 << std::endl;
 
     }
-    return found;
 }
 
 
@@ -90,9 +79,6 @@ void computeLPSArray(std::string pat, int M, int lps[]) {
     }
 }
 
-//end of kmp functions
-
-//start of Boyer-Moore
 //function to find the max of two ints
 
 int max(int a, int b){
@@ -116,19 +102,17 @@ void bad_character(std::string key, int keySize, int badchar[256]){
 
 }
 
-bool BoyerMoore(std::string data, std::string key){
+void BoyerMoore(std::string data, std::string key){
     //initalize variables for the size of the key, size of the data, and our badchar array;
     std::vector<int> indexes;
     int m = key.size(), n = data.size(), badchar[256];
     //assemble the badchar array 
     bad_character(key, m, badchar);
     //initalize shift, this will be used to find the next worthy comparison
-    bool found = false;
     int shift = 0;
     //sort through the data 
     while (shift <= (n - m)) {
         //i is initalized to go through the key
-        bool found = false;
         int i = m - 1;
         //this nested while loop will be used to compare our key to an instance in data
         while (i >= 0 && key[i] == data[shift + i]) {
@@ -137,7 +121,6 @@ bool BoyerMoore(std::string data, std::string key){
         }
         //if i < 0, weve found an instance of our key. we can return true
         if (i < 0) {
-           found = true;
            indexes.push_back(shift);
         }
 
@@ -156,14 +139,10 @@ bool BoyerMoore(std::string data, std::string key){
         std::cout << "Row " << (index/ 80) + 1 << " Column " << (index + 1) % 80 << std::endl;
 
     }
-    return found;
 }
 
-//end of Boyer-Moore
 
-// start of basic function
-bool inString(std::string s, std::string key) {
-    bool found = false;
+void basic(std::string s, std::string key) {
     int count = 0;
     std::vector<int> indexes;
     for (int i = 0; i <= s.length() - key.length(); i++) {
@@ -177,7 +156,6 @@ bool inString(std::string s, std::string key) {
             }
             if (match) {
                 indexes.push_back(i);
-                found = true;
             }
         }
     }
@@ -191,55 +169,25 @@ bool inString(std::string s, std::string key) {
         std::cout << "Row " << (index/ 80) + 1 << " Column " << (index + 1) % 80 << std::endl;
 
     }
-    return found;
 }
 
-//end of basic function
 
-float time_func(const std::string& s, const std::string& key , std::string function) {
-    clock_t c_start, c_end;
 
-    if(function == "basic"){
-    c_start = clock();
-    bool result = inString(s, key);
-    c_end = clock();
-    //  if (result) {
-    //     std::cout << "key is in string " << std::endl;
-    // } else {
-    //     std::cout << "key is not in string " << std::endl;
-    // }
-    }
+bool callFunctions(const std::string& s, const std::string& key , std::string function) {
 
-    else if (function == "kmp"){
-        c_start = clock();
-        bool result = KMPSearch(s, key);
-        c_end = clock();
-    //      if (result) {
-    //     std::cout << "key is in string " << std::endl;
-    // } else {
-    //     std::cout << "key is not in string " << std::endl;
-    // }
-    }
+   if(function == "Basic" || function == "basic"){
+        basic(s,key);
+   }
+    else if(function == "KMP" || function == "kmp"){
+        KMPSearch(s,key);
+   }
+   else if(function == "Boyer-Moore" || "Boyer Moore"){
+        BoyerMoore(s,key);
+   }
 
-      else if (function == "boyer"){
-        c_start = clock();
-        bool result = BoyerMoore(s, key);
-        c_end = clock();
-
-    //      if (result) {
-    //     std::cout << "key is in string " << std::endl;
-    // } else {
-    //     std::cout << "key is not in string " << std::endl;
-    // }
-    }
-    else{
-        std::cout << "invalid function call" << '\n';
-    }
-
-   
-
-    float output = 1.0 * (c_end - c_start) / CLOCKS_PER_SEC;
-    return output;
+   else{
+    std::cout << "Invalid function!" << std::endl;
+   }
 }
 
 
@@ -249,7 +197,10 @@ float time_func(const std::string& s, const std::string& key , std::string funct
 
 int main(int argc, char* argv[]){
     std::ifstream file(argv[1]);
-    std::string function = argv[2];
+    std::cout << "Pick which function to use : Basic , KMP , or Boyer-Moore" << std::endl;
+    std::string function;
+    std::cin >> function;
+    std::cout << std::endl;
 
     if (!file.is_open()) {
         std::cerr << "Error opening file: " << argv[1] << std::endl;
@@ -261,11 +212,9 @@ int main(int argc, char* argv[]){
         data += line;
     }
 
-    std::string key = argv[3];
-   //std::cout << data.size() << std::endl;
-    float execution_time = time_func(data, key , function);
+    std::string key = argv[2];
+     callFunctions(data, key , function);
 
-    //std::cout << "Execution time of the " <<  function << " is " << execution_time << " seconds." << std::endl;
     return 0;
 
 
