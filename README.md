@@ -8,5 +8,9 @@ The code for this function is in the controlF.cpp file and the test cases are in
 $ g++ -std=c++11 controlF.cpp -o search
 ```
 
+```bash
+$ ./seach test.txt "key"
+```
 
+The function will then ask which search algortihm to use for the searh
 
