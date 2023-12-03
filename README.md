@@ -9,7 +9,7 @@ $ g++ -std=c++11 controlF.cpp -o search
 ```
 
 ```bash
-$ ./seach test.txt "key"
+$ ./search test.txt "key"
 ```
 
 The function will then ask which search algortihm to use for the searh
