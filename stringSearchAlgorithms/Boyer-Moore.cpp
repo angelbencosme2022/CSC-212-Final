@@ -175,25 +175,34 @@ float time_func(const std::string& data, const std::string& key) {
  */
 
 int main(int argc, char* argv[]){
+    //opens the input file
     std::ifstream file(argv[1]);
 
+   // Check if the file is successfully opened
     if (!file.is_open()) {
         std::cerr << "Error opening file: " << argv[1] << std::endl;
         return 1;
     }
-    
+
+    //initialize the two variables we will need
     std::string line, data;
+  // Loop through each line in the file and concatenate the words into data
     while (std::getline(file, line)) {
         std::istringstream iss(line);
         std::string val;
+        // Loop through each word in the line
         while (iss >> val) {
-            data.append(val);
+              // Append the word to the 'data' string
+              data.append(val);
         }
     }
 
+  // Specify the substring (key) to search for using the Boyer-Moore algorithm
     std::string key = "CGT";
+   // checks execution time of the Boyer-Moore algorithm while searching key in data
     float execution_time = time_func(data, key);
 
+    // Output the execution time of the Boyer-Moore Algorithm
     std::cout << "Execution time of the Boyer Moore Algorithm: " << execution_time << " seconds." << std::endl;
     return 0;
 
