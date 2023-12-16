@@ -135,7 +135,16 @@ bool BoyerMoore(std::string data, std::string key){
 }
 
 
-
+/**
+ * 
+ * 
+ * This function measures the execution time of the inString function, which checks if a substring (data) is present in a given string (Key). The execution time is returned in seconds.
+ * 
+ * @param data The input string to search.
+ * @param key The substring to look for in the input string.
+ 
+ * @return  The execution time of the search operation in seconds.
+ */
 
 float time_func(const std::string& data, const std::string& key) {
     clock_t c_start, c_end;
@@ -156,6 +165,14 @@ float time_func(const std::string& data, const std::string& key) {
     float output = 1.0 * (c_end - c_start) / CLOCKS_PER_SEC;
     return output;
 }
+/**
+ * The main function reads a text file specified in the command-line arguments, processes the content to form a single string (data), and then measures the execution time of the Boyer-Moore string search algorithm for a predefined key in the obtained data.
+ * 
+ * @param argc The number of command-line arguments.
+ * @param argv An array of strings representing the command-line arguments.
+ 
+ * @return   Return status indicating the termination status of the program (0 for successful execution, 1 for errors). And prints execution time.
+ */
 
 int main(int argc, char* argv[]){
     std::ifstream file(argv[1]);
