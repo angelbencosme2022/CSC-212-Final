@@ -4,9 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-/**
- * Check if a key is present in a given string.
- * 
+/** 
  * This function performs a substring search in the input string to determine
  * if the specified key is present.
  * 
@@ -32,9 +30,7 @@ bool inString(std::string s, std::string key) {
     return false;
 }
 
-/**
- * Check the algorithm takes
- * 
+/** 
  * This function measures the execution time of the inString function, which checks if a substring (key) is present in a given string (s). The execution time is returned in seconds.
  * 
  * @param s The input string to search.
@@ -66,9 +62,13 @@ float time_func(const std::string& s, const std::string& key) {
 }
 
 /*
- * Runs the algorithm and calculates the time
  * 
  * This main function is designed to be executed from the command line, taking the path to an input file as a command-line argument. It reads the DNA strand from the file, performs a substring search using the time_func function, and outputs the execution time of the search.
+ 
+ * @param argc The number of command-line arguments.
+ * @param argv An array of strings representing the command-line arguments.
+ 
+ * @return   Return status indicating the termination status of the program (0 for successful execution, 1 for errors).
  */
 
 
