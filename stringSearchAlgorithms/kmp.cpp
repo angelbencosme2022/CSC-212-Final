@@ -126,7 +126,14 @@ float time_func(const std::string& s, const std::string& key) {
 
 
 
-
+/**
+ * The main function reads a text file specified in the command-line arguments, processes the content to form a single string (data), and then measures the execution time of the KMP string search algorithm for a predefined key in the obtained data.
+ * 
+ * @param argc The number of command-line arguments.
+ * @param argv An array of strings representing the command-line arguments.
+ 
+ * @return   Return status indicating the termination status of the program. And prints execution time.
+ */
     int main(int argv , char* argc[]) {
         // Open the input file specified in the command-line arguments
         std::ifstream inputFile(argc[1]);
