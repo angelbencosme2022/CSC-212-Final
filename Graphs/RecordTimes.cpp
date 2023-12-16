@@ -1,9 +1,10 @@
+
 #include <iostream>
 #include <string>
 #include <ctime>
 #include <fstream>
 #include <sstream>
-#include <ofstream>
+
 
 
 int max(int a, int b){
@@ -138,9 +139,9 @@ float time_func(const std::string& s, const std::string& key , std::string funct
     clock_t c_start, c_end;
 
     if(function == "basic"){
-    c_start = clock();
-    bool result = inString(s, key);
-    c_end = clock();
+        c_start = clock();
+        bool result = inString(s, key);
+        c_end = clock();
     //  if (result) {
     //     std::cout << "key is in string " << std::endl;
     // } else {
@@ -159,7 +160,7 @@ float time_func(const std::string& s, const std::string& key , std::string funct
     // }
     }
 
-      else if (function == "boyer"){
+    else if (function == "boyer"){
         c_start = clock();
         bool result = BoyerMoore(s, key);
         c_end = clock();
@@ -184,8 +185,6 @@ float time_func(const std::string& s, const std::string& key , std::string funct
    int main(int argc, char* argv[]){
     //std::ifstream file(argv[1]);
     std::string function = argv[1];
-    std::string filename = argv[2];
-    // std::string key = argv[2];
     std::string s = "";
        
 
@@ -203,21 +202,24 @@ float time_func(const std::string& s, const std::string& key , std::string funct
     //     }
     // }
 
-    std::ofstream executetime_File("filename");
+    std::ofstream basic_File("basicfilename");
+    std::ofstream kmp_File("kmpfilename");
+    std::ofstream boyer_File("boyerfilename");
+    
 
-    std::string key = "WORD";
+    std::string key = "CGT";
     for(int i = 0; i < 50000; i++){
         float execution_time = time_func(s, key , function);
         if(function == "basic"){ 
-            executetime_File << "x - " << execution_time << std::endl; //switch to writing to file 
+            basic_File << i*2 << ", " << execution_time << std::endl; //switch to writing to file 
         }else if(function == "kmp"){
-            executetime_File << "y - " << execution_time << std::endl; //switch to writing to file 
+            kmp_File << i*2 << ", " << execution_time << std::endl; //switch to writing to file 
         }else if(function == "boyer"){
-             executetime_File << "z - " << execution_time << std::endl;
+             boyer_File << i*2 << ", " << execution_time << std::endl;
         }     
-        s += key[i];
+        s += "CG";
     
     }
     
-    
     return 0;
+
