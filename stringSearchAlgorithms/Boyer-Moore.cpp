@@ -171,7 +171,7 @@ float time_func(const std::string& data, const std::string& key) {
  * @param argc The number of command-line arguments.
  * @param argv An array of strings representing the command-line arguments.
  
- * @return   Return status indicating the termination status of the program (0 for successful execution, 1 for errors). And prints execution time.
+ * @return   Return status indicating the termination status of the program. And prints execution time.
  */
 
 int main(int argc, char* argv[]){
