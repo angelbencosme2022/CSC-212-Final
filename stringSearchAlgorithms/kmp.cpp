@@ -4,8 +4,8 @@
 #include <fstream>
 #include <sstream>
 
+//void computeLPSArray(std::string pat, int M, int lps[]);
 
-void computeLPSArray(std::string pat, int M, int lps[]);
 
 // Prints occurrences of pat[] in txt[]
 bool KMPSearch(std::string txt, std::string pat) {
