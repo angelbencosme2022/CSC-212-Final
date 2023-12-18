@@ -1,0 +1,37 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Boyer Moore algorithm",
+  "steps": [
+    {
+      "file": "stringSearchAlgorithms/Boyer-Moore.cpp",
+      "description": "1. int max(int a, int b) {: This line declares a function named max that takes two integer parameters (a and b) and returns an integer.\n2. if (a > b) {: This is an if statement that checks if the value of a is greater than the value of b.\n3. Inside the if block: If a is greater than b, the function returns the value of a with return a;.\n4. If the condition in the if statement is not true (i.e., if a is not greater than b), the control goes to the next line outside the if block.\n5. return b;: This line is executed when either a is not greater than b or when a is equal to b. In either case, the function returns the value of b.\n",
+      "line": 15,
+      "title": "Find max"
+    },
+    {
+      "file": "stringSearchAlgorithms/Boyer-Moore.cpp",
+      "description": "1. for(int i = 0; i < 256; i++){ badchar[i] = -1; }: Initializes the badchar array with -1 for all 256 ASCII characters. This is done to set a default value that indicates a character is not present in the key.\n\n2. for(int i = 0; i < keySize; i++){ int ascii = (int) key[i]; badchar[ascii] = i; }: Processes each character in the key string and stores the index of the last occurrence of that character in the badchar array. This information will be used by the Boyer-Moore algorithm to determine the maximum possible shift when a mismatch occurs.\n",
+      "line": 35,
+      "title": "bad char"
+    },
+    {
+      "file": "stringSearchAlgorithms/Boyer-Moore.cpp",
+      "description": "1. for(i = 0; i <= keySize; i++){ goodSuffix[i] = 0; }: Initializes the goodSuffix array with zeros.\n2. i = keySize; j = keySize + 1; goodSuffix[i] = j;: Sets the initial value for the first position in the goodSuffix array.\n3. The while(i > 0) loop iterates through the pattern from right to left.\n4. The nested while(j <= keySize && key[i - 1] != key[j - 1]) loop moves left until a mismatch is found or the beginning of the pattern is reached.\n5. Inside the nested loop:\nif (goodSuffix[j] == 0) { goodSuffix[j] = j - i; }: Updates the good suffix shift for the current position in the array if it hasn't been set before.\nj = goodSuffix[j];: Moves j to the next value in the array.\n6. After the nested loop, both i and j are decremented, and the good suffix shift for the current position is updated.\n",
+      "line": 57,
+      "title": "good suffix"
+    },
+    {
+      "file": "stringSearchAlgorithms/Boyer-Moore.cpp",
+      "description": "1. int m = key.size(), n = data.size(), badchar[256], goodSuffix[m + 1];: Initializes variables for the size of the key, size of the data, and arrays for the bad character and good suffix heuristics.\n2. bad_character(key, m, badchar);: Calls the bad_character function to assemble the bad character array.\n3. good_suffix(key, m, goodSuffix);: Calls the good_suffix function to assemble the good suffix array.\n4. int shift = 0;: Initializes the shift, which will be used to find the next comparison position.\n5. The while (shift <= (n - m)) loop iterates through the data.\n6. Inside the loop, another loop is used to compare the key to a substring of the data.\n7. If the comparison is successful (i < 0), the function returns true.\n8. If the comparison is unsuccessful, it calculates shifts based on bad character and good suffix heuristics.\n9. The final shift is updated based on the maximum of three values: 1, badCharShift, and goodSuffixShift.\n10. The loop continues until all possible shifts have been explored.\n11. If no match is found, the function returns false.\n",
+      "line": 100,
+      "title": "actual BM algorithm"
+    },
+    {
+      "file": "stringSearchAlgorithms/Boyer-Moore.cpp",
+      "description": "1. std::ifstream file(argv[1]);: Opens the input file specified by the command-line argument argv[1] (assuming it exists).\n2. if (!file.is_open()) : Checks if the file is successfully opened. If not, it outputs an error message and returns 1 to indicate an error.\n3. std::string line, data;: Declares two variables, line to store each line read from the file, and data to store the concatenated words.\n4. The nested loop with while (std::getline(file, line)) { ... }: Reads each line from the file, and for each line, a nested loop using std::istringstream makes the word a token and appends them to the data string.\n5. std::string key = \"CGT\";: Specifies the substring (key) to search for using the Boyer-Moore algorithm.\n6. float execution_time = time_func(data, key);: Calls the time_func function to measure the execution time of the Boyer-Moore algorithm while searching for key in data.\n7. std::cout << \"Execution time of the Boyer Moore Algorithm: \" << execution_time << \" seconds.\" << std::endl;: Outputs the execution time to the console.\n",
+      "line": 177,
+      "title": "BM's main"
+    }
+  ],
+  "ref": "main"
+}

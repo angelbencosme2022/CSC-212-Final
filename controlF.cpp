@@ -101,7 +101,6 @@ void computeLPSArray(std::string pat, int M, int lps[]) {
             }
         }
     }
-}
 
 
 //function to find the max of two ints

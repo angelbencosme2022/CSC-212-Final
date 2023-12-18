@@ -1,0 +1,25 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "KMP algorithm",
+  "steps": [
+    {
+      "file": "stringSearchAlgorithms/kmp.cpp",
+      "description": "1. int M = pat.size(); int N = txt.size();: Get the sizes of the pattern (pat) and the text (txt).\n2. int lps[M];: Declare an array lps to hold the longest prefix suffix values for the pattern.\n3. computeLPSArray(pat, M, lps);: Call the computeLPSArray function to preprocess the pattern and calculate the lps array.\n4. int i = 0; int j = 0;: Initialize indices for the text (i) and pattern (j).\n5. while ((N - i) >= (M - j)) { ... }: Continue the loop until there are enough characters left in the text to potentially match the remaining pattern.\n6. Inside the loop:\nIf pat[j] matches txt[i], increment both j and i.\nIf j reaches the end of the pattern (j == M), the pattern is found at index i - j. Return true and update j based on the lps array.\nIf pat[j] doesn't match txt[i], adjust indices (i and j) based on the lps array.\n7. If the loop completes without finding a match, return false.\n",
+      "line": 19,
+      "title": "KMPsearch"
+    },
+    {
+      "file": "stringSearchAlgorithms/kmp.cpp",
+      "description": "1. int len = 0; lps[0] = 0;: Initialize the length of the previous longest prefix suffix (len) and set the first value in the LPS array (lps[0]) to 0.\n2. int i = 1;: Start iterating from the second character of the pattern.\n3. The while (i < M) loop continues until the end of the pattern is reached.\n4. Inside the loop:\n-If the current character in the pattern (pat[i]) matches the character at the previous length (pat[len]):\n   1. Increment the length (len).\n   2. Assign the length to the current position in the LPS array (lps[i]).\n   Move to the next character in both the pattern and the LPS array (i++).\n   \n-If there is a mismatch and the length is not 0:\n   Update the length to the value at the previous position in the LPS array (len = lps[len - 1]).\n\n-If there is a mismatch and the length is 0:\n   1. Assign 0 to the current position in the LPS array (lps[i] = 0).\n   2. Move to the next character in the pattern (i++).\n",
+      "line": 62,
+      "title": "findLPS "
+    },
+    {
+      "file": "stringSearchAlgorithms/kmp.cpp",
+      "description": "1. std::ifstream inputFile(argv[1]);: Opens the input file specified in the command-line arguments.\n2. if (!inputFile.is_open(): Checks if the file is successfully opened. If not, it displays an error message and returns 1 to indicate an error.\n3. std::stringstream buffer; buffer << inputFile.rdbuf();: Reads the entire content of the file into a stringstream buffer.\n4. inputFile.close();: Closes the input file.\n5. std::string dnaStrand = buffer.str();: Extracts the DNA strand from the buffer as a string.\n6. std::string key = \"CGT\";: Specifies the substring (key) to search for using the Knuth-Morris-Pratt (KMP) algorithm.\n7. float execution_time = time_func(dnaStrand, key);: Measures the execution time of the Knuth-Morris-Pratt (KMP) search algorithm using the time_func function.\n8. std::cout << \"Execution time of inString function: \" << execution_time << \" seconds.\" << std::endl;: Outputs the execution time to the console.\n",
+      "line": 137,
+      "title": "KMP's main"
+    }
+  ],
+  "ref": "main"
+}

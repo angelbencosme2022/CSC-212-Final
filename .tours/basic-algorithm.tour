@@ -1,0 +1,24 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Basic algorithm",
+  "steps": [
+    {
+      "file": "stringSearchAlgorithms/Basic.cpp",
+      "description": "1. The outer loop (for (int i = 0; i <= s.length() - key.length(); i++)) iterates through the characters of the string s up to a point where there might not be enough characters left for a match with the entire key.\n\n\n2. Inside the loop, it checks if the current character in s (s[i]) matches the first character of key (key[0]).\n\n\n3. If there's a match, it initializes a boolean variable match to true and enters a nested loop that compares each subsequent character of key with the corresponding character in s.\n\n\n4. If any characters don't match, it sets match to false and breaks out of the nested loop.\n\n\n5. After the nested loop, if match is still true, it means the entire key was found in s, so it returns true.\n\n\n6. If no match is found in the entire loop, the function returns false.\n",
+      "line": 15
+    },
+    {
+      "file": "stringSearchAlgorithms/Basic.cpp",
+      "description": "1. clock_t c_start, c_end;: Declares variables of type clock_t to store the start and end times for measuring execution time.\n\n\n2. c_start = clock();: Records the start time using the clock function before performing the substring search.\n\n\n3. bool result = inString(s, key);: Calls the inString function (assuming it is defined elsewhere) to perform the substring search and stores the result in the result variable.\n\n\n4. c_end = clock();: Records the end time after the substring search is complete.\n\n\n5. Output the result of the search to the console using std::cout.\n\n\n6. float output = 1.0 * (c_end - c_start) / CLOCKS_PER_SEC;: Calculates the elapsed time by subtracting the start time from the end time and dividing by CLOCKS_PER_SEC to convert the time to seconds.\n\n\n7. return output;: Returns the calculated execution time in seconds.\n",
+      "line": 41,
+      "title": "time function"
+    },
+    {
+      "file": "stringSearchAlgorithms/Basic.cpp",
+      "description": "1. std::ifstream inputFile(argv[1]);: Opens an input file specified by the command-line argument argv[1] (assuming it exists). It uses an ifstream to read from the file.\n2. std::string dnaStrand;: Declares a string to store the DNA strand.\n3. std::string line;: Declares a string to store each line read from the file.\n4. while (std::getline(inputFile, line)) { dnaStrand += line; }: Reads each line from the file using std::getline and appends it to the dnaStrand string.\n5. inputFile.close();: Closes the input file.\n6. std::string key = \"CGT\";: Specifies the substring (key) to search for in the DNA strand.\n7. float execution_time = time_func(dnaStrand, key);: Calls the time_func function to measure the execution time of the inString function and stores the result in the execution_time variable.\n8. std::cout << \"Execution time of inString function: \" << execution_time << \" seconds.\" << std::endl;: Outputs the execution time to the console.\n",
+      "line": 75,
+      "title": "Basic's main"
+    }
+  ],
+  "ref": "main"
+}
